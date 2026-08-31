@@ -54,4 +54,43 @@ def get_status():
             "total_messages": total_messages
         }
     }), 200
-          
+
+
+@status_bp.route("/api/contacts", methods=["GET"])
+def get_contacts():
+    """List every contact who has messaged, with their most recent message."""
+    try:
+        rows = supabase_service.supabase.table("chat_history") \
+            .select("contact_name, role, content, created_at") \
+            .order("created_at", desc=True) \
+            .execute()
+    except Exception:
+        return jsonify({"contacts": []}), 200
+
+    seen = {}
+    for row in rows.data:
+        name = row["contact_name"]
+        if name not in seen:
+            seen[name] = {
+                "contact_name": name,
+                "last_message": row["content"],
+                "last_role": row["role"],
+                "last_timestamp": row["created_at"]
+            }
+
+    return jsonify({"contacts": list(seen.values())}), 200
+
+
+@status_bp.route("/api/contacts/<contact_name>/messages", methods=["GET"])
+def get_contact_messages(contact_name):
+    """Full chat history for one contact, oldest first."""
+    try:
+        rows = supabase_service.supabase.table("chat_history") \
+            .select("role, content, created_at") \
+            .eq("contact_name", contact_name) \
+            .order("created_at", desc=False) \
+            .execute()
+        return jsonify({"messages": rows.data}), 200
+    except Exception:
+        return jsonify({"messages": []}), 200
+        
