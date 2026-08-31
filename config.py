@@ -11,6 +11,9 @@ WHATSAPP_VERIFY_TOKEN = os.getenv("WHATSAPP_VERIFY_TOKEN")
 # Groq
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
+# Gemini
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 # Supabase
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
