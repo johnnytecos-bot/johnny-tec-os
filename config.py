@@ -20,3 +20,4 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 # Vapi
 VAPI_API_KEY = os.getenv("VAPI_API_KEY")
+VAPI_PHONE_NUMBER_ID = os.getenv("VAPI_PHONE_NUMBER_ID")
